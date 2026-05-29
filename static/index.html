@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otomobil Danışmanı - Akıllı Karar Asistanı ve Chatbot</title>
+    <meta name="description" content="Bütçenize, ihtiyaçlarınıza ve tercihlerinize en uygun otomobilleri bulun. Akıllı chatbotumuz ve filtreleme sihirbazımızla otomobil satın alım kararlarınızı kolaylaştırın.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-background">
+        <div class="glow-orb" id="orb-1"></div>
+        <div class="glow-orb" id="orb-2"></div>
+        <div class="glow-orb" id="orb-3"></div>
+    </div>
+
+    <!-- Auth Container (Login / Register Screen) -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card">
+            <!-- Left Panel: Branding / Slogan / Features -->
+            <div class="auth-left">
+                <div>
+                    <div class="auth-logo">
+                        <i class="fa-solid fa-car-side auth-logo-icon"></i>
+                        <span>Oto<span>Danışman</span></span>
+                    </div>
+                    <div class="auth-brand-text">
+                        <h2>Geleceğin Otomobil Seçim Deneyimi</h2>
+                        <p>OtoDanışman ile bütçenize en uygun araçları arayın, teknik verileri karşılaştırın ve yapay zeka yardımıyla en doğru kararı verin.</p>
+                    </div>
+                    <div class="auth-features">
+                        <div class="auth-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Yapay Zeka Destekli Sohbet ve Öneriler</span>
+                        </div>
+                        <div class="auth-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Akıllı Tercih ve Karşılaştırma Sihirbazı</span>
+                        </div>
+                        <div class="auth-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Detaylı Avantaj/Dezavantaj Analizleri</span>
+                        </div>
+                        <div class="auth-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Güvenli Giriş ve SHA-256 Şifre Koruması</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-footer">
+                    <span>© 2026 OtoDanışman. Tüm hakları saklıdır.</span>
+                </div>
+            </div>
+            
+            <!-- Right Panel: Forms -->
+            <div class="auth-right">
+                <!-- Login Form -->
+                <div id="loginFormContainer" class="auth-form-container active">
+                    <h2 class="auth-form-title">Hesabınıza Giriş Yapın</h2>
+                    <p class="auth-form-subtitle">Otomobil asistanınızı kullanmak için giriş yapın.</p>
+                    
+                    <form id="loginForm" onsubmit="handleLoginSubmit(event)" autocomplete="off">
+                        <div class="form-group">
+                            <label for="loginEmail">E-posta Adresi</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-envelope input-icon"></i>
+                                <input type="email" id="loginEmail" class="form-control" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Şifre</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-lock input-icon"></i>
+                                <input type="password" id="loginPassword" class="form-control" required autocomplete="off">
+                                <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block auth-btn" id="btnLoginSubmit">Giriş Yap</button>
+                    </form>
+                    
+                    <div class="auth-switch">
+                        Henüz bir hesabınız yok mu? <a href="#" onclick="switchAuthMode('register')">Yeni Hesap Oluştur (Kayıt Ol)</a>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerFormContainer" class="auth-form-container">
+                    <h2 class="auth-form-title">Yeni Hesap Oluştur</h2>
+                    <p class="auth-form-subtitle">Hemen kaydolun ve araba seçim sihirbazını kullanın.</p>
+                    
+                    <form id="registerForm" onsubmit="handleRegisterSubmit(event)" autocomplete="off">
+                        <div class="form-group">
+                            <label for="registerName">Ad Soyad</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-user input-icon"></i>
+                                <input type="text" id="registerName" class="form-control" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">E-posta Adresi</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-envelope input-icon"></i>
+                                <input type="email" id="registerEmail" class="form-control" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Şifre</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-lock input-icon"></i>
+                                <input type="password" id="registerPassword" class="form-control" required autocomplete="off">
+                                <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('registerPassword', this)"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPasswordConfirm">Şifre Tekrar</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-lock input-icon"></i>
+                                <input type="password" id="registerPasswordConfirm" class="form-control" required autocomplete="off">
+                                <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('registerPasswordConfirm', this)"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block auth-btn" id="btnRegisterSubmit">Kayıt Ol ve Başla</button>
+                    </form>
+                    
+                    <div class="auth-switch">
+                        Zaten bir hesabınız var mı? <a href="#" onclick="switchAuthMode('login')">Hesabınıza Giriş Yapın</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast-notification">
+        <i id="toastIcon" class="fa-solid"></i>
+        <span id="toastMsg">İşlem başarılı.</span>
+    </div>
+
+    <div class="app-container" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-car-side"></i>
+                </div>
+                <div>
+                    <h1 class="logo-title">Oto<span>Danışman</span></h1>
+                    <p class="logo-subtitle">Akıllı Otomobil Karar Asistanı</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="user-welcome-badge" id="userWelcomeBadge">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span id="welcomeUserName">Kullanıcı</span>
+                </div>
+                <div class="api-key-container">
+                    <i class="fa-solid fa-key api-key-icon"></i>
+                    <input type="password" id="input-api-key" placeholder="Gemini API Anahtarı..." title="Gemini API Key (Tarayıcıda güvenle saklanır)">
+                </div>
+                <button id="btn-show-all-cars" class="btn btn-secondary">
+                    <i class="fa-solid fa-list"></i> Tüm Modeller
+                </button>
+                <div class="api-status">
+                    <span class="status-dot yellow" id="api-status-dot"></span>
+                    <span id="api-status-text">Yerel Mod</span>
+                </div>
+                <button class="btn btn-logout" id="btnLogout" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Çıkış Yap</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="main-layout">
+            
+            <!-- Left Pane: Sihirbaz (Wizard) -->
+            <section class="wizard-pane">
+                <div class="pane-card">
+                    <div class="pane-header">
+                        <i class="fa-solid fa-sliders"></i>
+                        <h2>Tercih Sihirbazı</h2>
+                    </div>
+                    <p class="pane-desc">Kriterlerinizi seçin, yapay zeka sizin için en ideal modelleri puanlasın.</p>
+                    
+                    <form id="wizard-form" onsubmit="event.preventDefault();">
+                        <!-- Budget -->
+                        <div class="filter-section">
+                            <label class="filter-label">
+                                <span>Maksimum Bütçe</span>
+                                <span id="budget-value" class="highlight-text">Limitsiz</span>
+                            </label>
+                            <input type="range" id="input-budget" min="800000" max="3500000" step="50000" value="3500000" class="range-slider">
+                            <div class="range-labels">
+                                <span>800 Bin TL</span>
+                                <span>1.8 Milyon TL</span>
+                                <span>3.5 Milyon TL+</span>
+                            </div>
+                        </div>
+
+                        <!-- Body Types -->
+                        <div class="filter-section">
+                            <span class="filter-label">Kasa Tipi</span>
+                            <div class="body-type-grid">
+                                <div class="selectable-card body-card" data-val="Sedan" id="body-sedan">
+                                    <i class="fa-solid fa-car"></i>
+                                    <span>Sedan</span>
+                                </div>
+                                <div class="selectable-card body-card" data-val="Hatchback" id="body-hatchback">
+                                    <i class="fa-solid fa-car-rear"></i>
+                                    <span>Hatchback</span>
+                                </div>
+                                <div class="selectable-card body-card" data-val="SUV" id="body-suv">
+                                    <i class="fa-solid fa-truck-monster"></i>
+                                    <span>SUV</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fuel Types -->
+                        <div class="filter-section">
+                            <span class="filter-label">Yakıt Türü</span>
+                            <div class="pills-container" id="fuel-pills">
+                                <button type="button" class="pill" data-val="Benzin" id="fuel-benzin">Benzin</button>
+                                <button type="button" class="pill" data-val="Dizel" id="fuel-dizel">Dizel</button>
+                                <button type="button" class="pill" data-val="Hibrit" id="fuel-hibrit">Hibrit</button>
+                                <button type="button" class="pill" data-val="Elektrik" id="fuel-elektrik">Elektrik</button>
+                                <button type="button" class="pill" data-val="LPG / Benzin" id="fuel-lpg">LPG</button>
+                            </div>
+                        </div>
+
+                        <!-- Transmission -->
+                        <div class="filter-section">
+                            <span class="filter-label">Şanzıman</span>
+                            <div class="pills-container" id="trans-pills">
+                                <button type="button" class="pill" data-val="Otomatik" id="trans-auto">Otomatik</button>
+                                <button type="button" class="pill" data-val="Manuel" id="trans-manual">Manuel</button>
+                            </div>
+                        </div>
+
+                        <!-- Priorities -->
+                        <div class="filter-section">
+                            <span class="filter-label">Öncelikleriniz</span>
+                            <div class="pills-container" id="priority-pills">
+                                <button type="button" class="pill" data-val="ekonomi" id="prio-eco"><i class="fa-solid fa-gas-pump"></i> Yakıt Tasarrufu</button>
+                                <button type="button" class="pill" data-val="performans" id="prio-perf"><i class="fa-solid fa-gauge-high"></i> Performans</button>
+                                <button type="button" class="pill" data-val="konfor" id="prio-comf"><i class="fa-solid fa-couch"></i> Konfor & Kalite</button>
+                                <button type="button" class="pill" data-val="aile" id="prio-family"><i class="fa-solid fa-users"></i> Geniş Aile</button>
+                                <button type="button" class="pill" data-val="teknoloji" id="prio-tech"><i class="fa-solid fa-microchip"></i> Son Teknoloji</button>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="button" id="btn-find-cars" class="btn btn-primary btn-block">
+                            <i class="fa-solid fa-magnifying-glass"></i> Uygun Modelleri Ara
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Comparison Drawer -->
+                <div class="pane-card comparison-drawer" id="comp-drawer">
+                    <div class="pane-header">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h3>Karşılaştırma Masası</h3>
+                    </div>
+                    <div class="comparison-list" id="comp-list">
+                        <p class="empty-text">Karşılaştırmak için en az 2 araç ekleyin.</p>
+                    </div>
+                    <button id="btn-compare-now" class="btn btn-accent btn-block" disabled>
+                        <i class="fa-solid fa-code-compare"></i> Karşılaştır (<span id="comp-count">0</span>)
+                    </button>
+                </div>
+            </section>
+
+            <!-- Middle/Right Split depending on action -->
+            <!-- We will render results list here and the chat in a split view -->
+            <section class="results-and-chat-pane">
+                <!-- Search Results Section -->
+                <div class="results-container" id="results-area">
+                    <div class="section-title-bar">
+                        <h3><i class="fa-solid fa-car-on"></i> Önerilen Otomobiller</h3>
+                        <span id="results-count" class="badge">0 Araç Listelendi</span>
+                    </div>
+                    <div class="cars-grid" id="cars-grid">
+                        <!-- Car cards will be loaded here dynamically -->
+                        <div class="initial-results-placeholder">
+                            <i class="fa-solid fa-sparkles"></i>
+                            <p>Sihirbazdan seçimlerinizi yapın veya chatbot ile doğrudan konuşmaya başlayın!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chatbot Section -->
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-bot-avatar">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="chat-bot-info">
+                            <h3>Yapay Zeka Danışmanı</h3>
+                            <span class="online-indicator">Sorularınızı sorabilirsiniz</span>
+                        </div>
+                        <button id="btn-clear-chat" class="btn-icon" title="Sohbeti Temizle">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+
+                    <!-- Chat Message Area -->
+                    <div class="chat-messages" id="chat-messages-box">
+                        <div class="message bot-message">
+                            <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                            <div class="msg-body">
+                                <p>Merhaba! Ben sizin kişisel Otomobil Danışmanınızım. 🚗</p>
+                                <p>Size en uygun otomobili seçmek, bütçenizi değerlendirmek veya aklınızdaki modelleri karşılaştırmak için buradayyim.</p>
+                                <p>Bana şu şekilde sorular sorabilirsiniz:</p>
+                                <ul>
+                                    <li>"1.5 Milyon TL bütçem var, hibrit veya elektrikli ne alabilirim?"</li>
+                                    <li>"Toyota Corolla Hybrid mi yoksa Renault Clio mu daha mantıklı?"</li>
+                                    <li>"Chery Tiggo 8 Pro yakıt tüketimi nasıldır, aileye gider mi?"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suggestions bar -->
+                    <div class="quick-suggestions">
+                        <button class="suggest-btn" data-query="1.5 Milyon TL bütçeli aile arabaları">Family SUV &lt; 1.5M</button>
+                        <button class="suggest-btn" data-query="En az yakan hibrit ve elektrikli otomobiller">Yakıt Tasarruflu Hibritler</button>
+                        <button class="suggest-btn" data-query="Model Y ve Ioniq 5 karşılaştırması">Tesla vs Ioniq 5</button>
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="chat-input-area">
+                        <textarea id="chat-textarea" placeholder="Otomobiller hakkında her şeyi sorun... (Enter ile gönder)" rows="1"></textarea>
+                        <button id="btn-send" class="btn btn-primary btn-round">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Car Detail Modal -->
+    <div class="modal" id="car-detail-modal">
+        <div class="modal-overlay" onclick="closeModal('car-detail-modal')"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('car-detail-modal')"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-body" id="car-detail-content">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="modal" id="comparison-modal">
+        <div class="modal-overlay" onclick="closeModal('comparison-modal')"></div>
+        <div class="modal-content modal-large">
+            <button class="modal-close" onclick="closeModal('comparison-modal')"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-scale-balanced"></i> Otomobil Karşılaştırma Raporu</h2>
+            </div>
+            <div class="modal-body">
+                <div class="comparison-table-wrapper" id="comparison-table-content">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
